@@ -18,8 +18,9 @@ const SignOutButton = () => {
       navigate("/sign-in");
     },
     onError: (error) => {
-      showToast({ message: error, message, type: "ERROR" });
+      showToast({ message: error.message, type: "ERROR" });
     },
+    
   });
 
   const handleClick = () => {
