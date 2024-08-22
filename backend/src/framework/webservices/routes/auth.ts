@@ -7,18 +7,16 @@ import verifyToken from "../middleware/auth";
 
 const router = express.Router();
 
-
-// api/auth/login
 router.post(
   "/login",
   [
     check("email", "Email is Required").isString(),
-    check("password", "Password with 6 or more characters is Required").isLength({ min: 6 }),
+    check("password", "Password with 6 or more Required").isLength({ min: 6 }),
   ],
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ message: "Validation failed", errors: errors.array() });
+      return res.status(400).json({ message: errors.array() });
     }
 
     const { email, password } = req.body;
@@ -30,6 +28,7 @@ router.post(
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
+
       if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
@@ -45,19 +44,17 @@ router.post(
       res.cookie("auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 86400000, // 1 day
+        maxAge: 86400000,
       });
 
-      return res.status(200).json({ message: "Login successful", userId: user._id });
+      return res
+        .status(200)
+        .json({ message: "Login successful", userId: user._id });
     } catch (error) {
-      console.error(error);
-
-      // Handle unknown error type
-      if (error instanceof Error) {
-        return res.status(500).json({ message: "Something went wrong", error: error.message });
-      } else {
-        return res.status(500).json({ message: "Something went wrong", error: "Unknown error" });
-      }
+      console.log(error);
+      return res
+        .status(500)
+        .json({ message: "Something went wrong", error: "Unknown error" });
     }
   }
 );
