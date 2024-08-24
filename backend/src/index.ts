@@ -4,7 +4,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import userRoutes from "./framework/webservices/routes/users";
 import authRoutes from "./framework/webservices/routes/auth";
-import myHotelRoutes from "./framework/webservices/routes/myHotels"
+import myHotelRoutes from "./framework/webservices/routes/myHotels";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
@@ -27,18 +27,22 @@ app.use(
   })
 );
 
-// Serve static files from the frontend build directory
-const frontendPath = path.join(__dirname, "../../frontend/dist");
-app.use(express.static(frontendPath));
+// // Serve static files from the frontend build directory
+// const frontendPath = path.join(__dirname, "../../frontend/dist");
+// app.use(express.static(frontendPath));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/my-hotels",myHotelRoutes)
+app.use("/api/my-hotels", myHotelRoutes);
 
-// Handle all other routes by serving the frontend's index.html
 app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 });
+
+// // Handle all other routes by serving the frontend's index.html
+// app.get("*", (req: Request, res: Response) => {
+//   res.sendFile(path.join(frontendPath, "index.html"));
+// });
 
 app.listen(7000, () => {
   console.log("server is running on port 7000");

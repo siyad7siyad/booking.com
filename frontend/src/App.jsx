@@ -4,10 +4,10 @@ import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 import AddHotel from "./pages/AddHotel";
 import { useAppContext } from "./contexts/AppContext";
+import MyHotels from "./pages/myHotels";
 
 function App() {
-
-  const {isLoggedIn} = useAppContext()
+  const { isLoggedIn } = useAppContext();
 
   return (
     <BrowserRouter>
@@ -39,6 +39,15 @@ function App() {
                 <Layout>
                   {" "}
                   <AddHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-hotels"
+              element={
+                <Layout>
+                  {" "}
+                  <MyHotels />
                 </Layout>
               }
             />
