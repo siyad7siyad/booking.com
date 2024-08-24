@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
 import TypeSection from "./TypeSection";
@@ -6,12 +6,21 @@ import FacilitiesSection from "./FacilitiesSection";
 import GuestSection from "./GuestSection";
 import ImagesSection from "./ImagesSection";
 
-const ManageHotelForm = ({ onSave, isLoading }) => {
+const ManageHotelForm = ({ onSave, isLoading, hotel }) => {
   const formMethods = useForm();
-  const { handleSubmit } = formMethods;
+  const { handleSubmit, reset } = formMethods;
+
+  useEffect(() => {
+    reset(hotel);
+  }, [hotel, reset]);
 
   const onSubmit = handleSubmit((formDataJson) => {
     const formData = new FormData();
+
+    if (hotel) {
+      formData.append("hotelId", hotel._id);
+    }
+
     formData.append("name", formDataJson.name);
     formData.append("city", formDataJson.city);
     formData.append("country", formDataJson.country);
@@ -26,6 +35,12 @@ const ManageHotelForm = ({ onSave, isLoading }) => {
     if (Array.isArray(formDataJson.facilities)) {
       formDataJson.facilities.forEach((facility, index) => {
         formData.append(`facilities[]`, facility); // Change to facilities[]
+      });
+    }
+
+    if (formDataJson.imageUrls) {
+      formDataJson.imageUrls.forEach((url, index) => {
+        formData.append(`imageUrls[${index}]`, url);
       });
     }
 
