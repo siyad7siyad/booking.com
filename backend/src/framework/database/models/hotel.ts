@@ -17,6 +17,15 @@ export type HotelType = {
   lastUpdated: Date;
 };
 
+export type HotelSearchResponse = {
+  data: HotelType[];
+  pagination: {
+    total: number;
+    page: number;
+    pages: number;
+  };
+};
+
 const hotelSchema = new mongoose.Schema<HotelType>({
   userId: {
     type: String,
@@ -60,5 +69,5 @@ const hotelSchema = new mongoose.Schema<HotelType>({
   lastUpdated: { type: Date, required: true },
 });
 
-const Hotel = mongoose.model<HotelType>("Hotel",hotelSchema)
-export default Hotel
+const Hotel = mongoose.model<HotelType>("Hotel", hotelSchema);
+export default Hotel;

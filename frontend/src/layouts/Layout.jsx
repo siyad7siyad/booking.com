@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
+import SearchBar from "../components/SearchBar";
 
 
 
@@ -11,6 +12,10 @@ function Layout({children}) {
       <Header />
     
       <Hero />
+      <div className="container mx-auto">
+        <SearchBar />
+
+      </div>
       <div className="container mx-auto py-10 flex-1">
 
         {children}
