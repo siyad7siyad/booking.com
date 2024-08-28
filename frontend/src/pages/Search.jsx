@@ -30,7 +30,6 @@ const Search = () => {
     facilities: selectedFacilities,
     maxPrice: selectedPrice?.toString(),
     sortOption,
-    name: search.name,
   };
 
   const {

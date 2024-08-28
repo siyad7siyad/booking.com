@@ -123,7 +123,6 @@ export const searchHotels = async (searchParams) => {
   queryParams.append("page", searchParams.page || "");
   queryParams.append("maxPrice", searchParams.maxPrice || "");
   queryParams.append("sortOption", searchParams.sortOption || "");
-  queryParams.append("name", searchParams.name || ""); // Add this line if searching by name
 
   searchParams.facilities?.forEach((facility) =>
     queryParams.append("facilities", facility)
@@ -137,6 +136,18 @@ export const searchHotels = async (searchParams) => {
 
   if (!response.ok) {
     throw new Error("Error fetching hotels");
+  }
+
+  return response.json();
+};
+export const fetchHotelById = async (hotelId) => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
+
+  if (!response.ok) {
+    // Log the full response for debugging
+    const text = await response.text();
+    console.error("Error response:", text);
+    throw new Error("Error fetching Hotels");
   }
 
   return response.json();

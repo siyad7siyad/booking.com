@@ -9,7 +9,6 @@ export const SearchContextProvider = ({ children }) => {
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [hotelId, setHotelId] = useState("");
-
   const saveSearchValue = (
     destination,
     checkIn,
@@ -18,6 +17,14 @@ export const SearchContextProvider = ({ children }) => {
     childCount,
     hotelId
   ) => {
+    console.log("Saving search values:", {
+      destination,
+      checkIn,
+      checkOut,
+      adultCount,
+      childCount,
+      hotelId,
+    });
     setDestination(destination);
     setCheckIn(checkIn);
     setCheckOut(checkOut);

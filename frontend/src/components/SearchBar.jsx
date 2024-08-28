@@ -9,6 +9,7 @@ const SearchBar = () => {
   const search = useSearchContext();
   const navigate = useNavigate();
 
+  
   const [destination, setDestination] = useState(search.destination);
   const [checkIn, setCheckIn] = useState(search.checkIn);
   const [checkOut, setCheckOut] = useState(search.checkOut);
