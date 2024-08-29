@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { useAppContext } from "../../contexts/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
 
 const GuestInfoForm = ({ hotelId, pricePerNight }) => {
   const search = useSearchContext();
@@ -56,14 +57,17 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
   };
 
   return (
-    <div className="flex flex-col p-4 bg-blue-200 gap-4">
-      <h3 className="text-md font-bold">${pricePerNight}</h3>
+    <div className="flex flex-col p-6 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl shadow-lg transform transition-all duration-500 hover:scale-105">
+      <h3 className="text-2xl font-bold text-white mb-4">
+        ${pricePerNight} / night
+      </h3>
       <form
         onSubmit={
           isLoggedIn ? handleSubmit(onSubmit) : handleSubmit(onSignInClick)
         }
+        className="space-y-6"
       >
-        <div className="grid grid-cols-1 gap-4 items-center">
+        <div className="grid grid-cols-1 gap-6">
           <div>
             <DatePicker
               selected={checkIn}
@@ -74,7 +78,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
               minDate={minDate}
               maxDate={maxDate}
               placeholderText="Check-in Date"
-              className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold"
+              className="w-full bg-white p-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-700 font-semibold transition duration-300"
               wrapperClassName="w-full"
             />
           </div>
@@ -88,16 +92,16 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
               minDate={minDate}
               maxDate={maxDate}
               placeholderText="Check-out Date"
-              className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold"
+              className="w-full bg-white p-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-700 font-semibold transition duration-300"
               wrapperClassName="w-full"
             />
           </div>
 
-          <div className="flex bg-white px-4 py-2 gap-4 rounded-lg shadow-sm">
+          <div className="flex bg-white px-6 py-4 gap-6 rounded-lg shadow-md transform transition-all duration-300 hover:bg-blue-50">
             <label className="flex items-center text-gray-700 font-semibold">
               Adults:
               <input
-                className="w-full p-2 ml-2 focus:outline-none border-b-2 border-blue-400 transition-colors duration-300"
+                className="w-16 p-2 ml-2 focus:outline-none border-b-2 border-blue-400 transition-colors duration-300 focus:border-blue-600 rounded-md"
                 type="number"
                 min={1}
                 max={20}
@@ -105,7 +109,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
                   required: "This field is required",
                   min: {
                     value: 1,
-                    message: "There must be atleast one adult",
+                    message: "There must be at least one adult",
                   },
                   valueAsNumber: true,
                 })}
@@ -115,7 +119,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
             <label className="flex items-center text-gray-700 font-semibold">
               Children:
               <input
-                className="w-full p-2 ml-2 focus:outline-none border-b-2 border-blue-400 transition-colors duration-300"
+                className="w-16 p-2 ml-2 focus:outline-none border-b-2 border-blue-400 transition-colors duration-300 focus:border-blue-600 rounded-md"
                 type="number"
                 min={0}
                 max={20}
@@ -130,15 +134,15 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
               </span>
             )}
           </div>
-          {isLoggedIn ? (
-            <button className="bg-blue-600 text-white h-full p-2 font-bold hover:bg-blue-500 text-xl">
-              Book Now
-            </button>
-          ) : (
-            <button className="bg-blue-600 text-white h-full p-2 font-bold hover:bg-blue-500 text-xl">
-              Sign in to Book
-            </button>
-          )}
+          <button
+            className={`w-full py-3 rounded-lg text-white font-bold text-lg transform transition-all duration-300 ${
+              isLoggedIn
+                ? "bg-blue-700 hover:bg-blue-600 hover:scale-105"
+                : "bg-gray-700 hover:bg-gray-600 hover:scale-105"
+            }`}
+          >
+            {isLoggedIn ? "Book Now" : "Sign in to Book"}
+          </button>
         </div>
       </form>
     </div>

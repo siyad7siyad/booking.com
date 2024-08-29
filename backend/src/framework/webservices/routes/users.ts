@@ -2,8 +2,24 @@ import express, { Request, Response } from "express";
 import User from "../../database/models/user";
 import jwt from "jsonwebtoken";
 import { check, validationResult } from "express-validator";
+import verifyToken from "../middleware/auth";
 
 const router = express.Router();
+
+router.get("/me", verifyToken, async (req: Request, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    res.json(user); // Send user data as the response
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+});
 
 // api/users/register
 
@@ -18,10 +34,9 @@ router.post(
     }),
   ],
   async (req: Request, res: Response) => {
-
-    const errors = validationResult(req)
-    if(!errors.isEmpty()){
-      return res.status(400).json({message:errors.array()})
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array() });
     }
 
     try {
@@ -50,7 +65,7 @@ router.post(
         maxAge: 86400000,
       });
 
-      return res.status(200).send({message:"User registerd ok"});
+      return res.status(200).send({ message: "User registerd ok" });
     } catch (error) {
       console.log(error);
       res.status(500).send({ message: "Something went wrong" });

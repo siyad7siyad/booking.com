@@ -1,4 +1,17 @@
 import mongoose from "mongoose";
+import { BookingType } from "../../webservices/routes/hotels";
+
+const bookingSchema = new mongoose.Schema<BookingType>({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true },
+  adultCount: { type: Number, required: true },
+  childCount: { type: Number, required: true },
+  checkIn: { type: Date, required: true },
+  checkOut: { type: Date, required: true },
+  userId: { type: String, required: true },
+  totalCost: { type: Number, required: true },
+});
 
 export type HotelType = {
   _id: string;
@@ -15,6 +28,7 @@ export type HotelType = {
   starRating: number;
   imageUrls: string[];
   lastUpdated: Date;
+  bookings: BookingType[];
 };
 
 export type HotelSearchResponse = {
@@ -67,6 +81,7 @@ const hotelSchema = new mongoose.Schema<HotelType>({
   starRating: { type: Number, required: true, min: 1, max: 5 },
   imageUrls: [{ type: String, required: true }],
   lastUpdated: { type: Date, required: true },
+  bookings:[bookingSchema]
 });
 
 const Hotel = mongoose.model<HotelType>("Hotel", hotelSchema);

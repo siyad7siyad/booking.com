@@ -16,6 +16,17 @@ export const register = async (formData) => {
     throw new Error(responseBody.message);
   }
 };
+export const fetchCurrentUser = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Error fetching user");
+  }
+  const data = await response.json();
+  console.log(data); // Log the entire user data
+  return data;
+};
 
 export const SignIn = async (formData) => {
   const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
@@ -148,6 +159,28 @@ export const fetchHotelById = async (hotelId) => {
     const text = await response.text();
     console.error("Error response:", text);
     throw new Error("Error fetching Hotels");
+  }
+
+  return response.json();
+};
+
+
+
+export const createPaymentIntent = async (hotelId, numberOfNights) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
+    {
+      credentials: "include",
+      method: "POST",
+      body: JSON.stringify({ numberOfNights }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error fectching payment intent");
   }
 
   return response.json();

@@ -1,10 +1,15 @@
 import React, { useContext, useState } from "react";
 import Toast from "../components/Toast";
 import { useQuery } from "react-query";
+import { loadStripe } from "@stripe/stripe-js";
 
 import * as apiClient from "../api_client";
 
+const STRIPE_PUB_KEY = import.meta.env.VITE_STRIPE_PUB_KEY || "";
+
 const AppContext = React.createContext(undefined);
+
+const stripePromise = loadStripe(STRIPE_PUB_KEY);
 
 export const AppContextProvider = ({ children }) => {
   const [toast, setToast] = useState(undefined);
@@ -20,6 +25,7 @@ export const AppContextProvider = ({ children }) => {
           setToast(toastMessage); // This is where you would integrate with a real toast notification library
         },
         isLoggedIn: !isError,
+        stripePromise,
       }}
     >
       {toast && (
