@@ -164,8 +164,6 @@ export const fetchHotelById = async (hotelId) => {
   return response.json();
 };
 
-
-
 export const createPaymentIntent = async (hotelId, numberOfNights) => {
   const response = await fetch(
     `${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
@@ -184,4 +182,21 @@ export const createPaymentIntent = async (hotelId, numberOfNights) => {
   }
 
   return response.json();
+};
+
+export const createBooking = async (formData) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(FormData),
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Error booking room");
+  }
 };

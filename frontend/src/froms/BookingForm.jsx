@@ -1,8 +1,10 @@
-import { CardElement } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 const BookingForm = ({ currentUser, paymentIntent }) => {
+  const stripe = useStripe();
+  const elements = useElements()
   const { handleSubmit, register } = useForm({
     defaultValues: {
       firstName: currentUser.firstName,
@@ -13,6 +15,22 @@ const BookingForm = ({ currentUser, paymentIntent }) => {
           : currentUser.email?.value,
     },
   });
+
+  const onSubmit = async (formData) => {
+    if (!stripe || !elements) {
+      return;
+    }
+    const result = await stripe.confirmCardPayment(paymentIntent.clientSecret,{
+      payment_method:{
+        card:elements.getElement(CardElement)
+      }
+    });
+    if(result.paymentIntent?.status==="succeeded"){
+      // book the room
+      
+
+    }
+  };
 
   return (
     <div className="max-w-lg mx-auto">
@@ -65,7 +83,10 @@ const BookingForm = ({ currentUser, paymentIntent }) => {
 
         <div className="spac-y-2">
           <h3 className="text-xl font-semibold">Payment Details</h3>
-          <CardElement id="payment-element" className="border rounded-md p-2 text-sm"/>
+          <CardElement
+            id="payment-element"
+            className="border rounded-md p-2 text-sm"
+          />
         </div>
       </form>
     </div>
