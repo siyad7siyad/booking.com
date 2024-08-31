@@ -14,7 +14,7 @@ const PriceFilter = ({ selectedPrice, onChange }) => {
         className="rounded border border-slate-300 p-2"
       >
         <option value="">Select Max Price</option>
-        {[10000, 20000, 30000, 40000, 50000].map((price, index) => (
+        {[1000, 2000, 3000, 4000, 5000,6000,7000,8000,9000,10000,20000 ].map((price, index) => (
           <option key={index} value={price}>
             {price}
           </option>

@@ -8,6 +8,7 @@ import StarRatingFilter from "../components/StarRatingFilter";
 import HotelTypesFilter from "../components/HotelTypesFilter";
 import HotelFacilityFilter from "../components/HotelFacilityFilter";
 import PriceFilter from "../components/PriceFilter";
+import { motion } from "framer-motion";
 
 const Search = () => {
   const search = useSearchContext();
@@ -46,11 +47,13 @@ const Search = () => {
 
   // Debugging: Log the API response
   console.log(hotelData);
-  
+
   const handleStarsChange = (event) => {
     const starRating = event.target.value;
     setSelectedStars((prevStars) =>
-      event.target.checked ? [starRating] : prevStars.filter((star) => star !== starRating)
+      event.target.checked
+        ? [starRating]
+        : prevStars.filter((star) => star !== starRating)
     );
   };
 
@@ -77,7 +80,12 @@ const Search = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <div className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10 bg-white shadow-md overflow-hidden">
+      <motion.div
+        className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10 bg-white shadow-md overflow-hidden"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <div className="space-y-5">
           <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">
             Filter by:
@@ -99,8 +107,13 @@ const Search = () => {
             onChange={(value) => setSelectedPrice(value)}
           />
         </div>
-      </div>
-      <div className="flex flex-col gap-5">
+      </motion.div>
+      <motion.div
+        className="flex flex-col gap-5"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <div className="flex flex-col gap-5">
           <span className="text-xl font-bold">
             {hotelData?.pagination?.total !== undefined
@@ -127,7 +140,14 @@ const Search = () => {
           </div>
 
           {hotelData?.data?.map((hotel, index) => (
-            <SearchResultsCard key={index} hotel={hotel} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              <SearchResultsCard hotel={hotel} />
+            </motion.div>
           ))}
           <div>
             <Pagination
@@ -137,7 +157,7 @@ const Search = () => {
             />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

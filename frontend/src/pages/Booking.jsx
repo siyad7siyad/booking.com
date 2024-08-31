@@ -7,6 +7,7 @@ import BookingDetailsSummary from "../components/BookingDetailsSummary";
 import { Elements } from "@stripe/react-stripe-js";
 import { useAppContext } from "../contexts/AppContext";
 import BookingForm from "../froms/BookingForm";
+import { motion } from "framer-motion";
 
 const Booking = () => {
   const { stripePromise } = useAppContext();
@@ -47,29 +48,42 @@ const Booking = () => {
   );
 
   return (
-    <div className="grid md:grid-cols-[1fr_2fr]">
-      <BookingDetailsSummary
-        checkIn={search.checkIn}
-        checkOut={search.checkOut}
-        adultCount={search.adultCount}
-        childCount={search.childCount}
-        numberOfNights={numberOfNights}
-        hotel={hotel}
-      />
+    <div className="grid md:grid-cols-[1fr_2fr] gap-5 p-6">
+      <motion.div
+        className="bg-white p-4 rounded-lg shadow-md"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <BookingDetailsSummary
+          checkIn={search.checkIn}
+          checkOut={search.checkOut}
+          adultCount={search.adultCount}
+          childCount={search.childCount}
+          numberOfNights={numberOfNights}
+          hotel={hotel}
+        />
+      </motion.div>
 
       {currentUser && paymentIntentData && (
-        <Elements
-          stripe={stripePromise}
-          options={{
-            clientSecret: paymentIntentData.clientSecret,
-          }}
+        <motion.div
+          className="bg-white p-4 rounded-lg shadow-md"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          {/* Render BookingForm component */}
-          <BookingForm
-            currentUser={currentUser}
-            paymentIntent={paymentIntentData}
-          />
-        </Elements>
+          <Elements
+            stripe={stripePromise}
+            options={{
+              clientSecret: paymentIntentData.clientSecret,
+            }}
+          >
+            <BookingForm
+              currentUser={currentUser}
+              paymentIntent={paymentIntentData}
+            />
+          </Elements>
+        </motion.div>
       )}
     </div>
   );

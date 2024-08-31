@@ -97,11 +97,11 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
             />
           </div>
 
-          <div className="flex bg-white px-6 py-4 gap-6 rounded-lg shadow-md transform transition-all duration-300 hover:bg-blue-50">
-            <label className="flex items-center text-gray-700 font-semibold">
-              Adults:
+          <div className="flex flex-col gap-4 bg-white p-4 rounded-lg shadow-md">
+            <div className="flex items-center justify-between">
+              <label className="text-gray-700 font-semibold">Adults:</label>
               <input
-                className="w-16 p-2 ml-2 focus:outline-none border-b-2 border-blue-400 transition-colors duration-300 focus:border-blue-600 rounded-md"
+                className="w-20 p-2 border-b-2 border-blue-400 focus:outline-none transition-colors duration-300 focus:border-blue-600 rounded-md"
                 type="number"
                 min={1}
                 max={20}
@@ -114,12 +114,12 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
                   valueAsNumber: true,
                 })}
               />
-            </label>
+            </div>
 
-            <label className="flex items-center text-gray-700 font-semibold">
-              Children:
+            <div className="flex items-center justify-between">
+              <label className="text-gray-700 font-semibold">Children:</label>
               <input
-                className="w-16 p-2 ml-2 focus:outline-none border-b-2 border-blue-400 transition-colors duration-300 focus:border-blue-600 rounded-md"
+                className="w-20 p-2 border-b-2 border-blue-400 focus:outline-none transition-colors duration-300 focus:border-blue-600 rounded-md"
                 type="number"
                 min={0}
                 max={20}
@@ -127,13 +127,14 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
                   valueAsNumber: true,
                 })}
               />
-            </label>
+            </div>
             {errors.adultCount && (
               <span className="text-red-500 font-semibold text-sm">
                 {errors.adultCount.message}
               </span>
             )}
           </div>
+
           <button
             className={`w-full py-3 rounded-lg text-white font-bold text-lg transform transition-all duration-300 ${
               isLoggedIn

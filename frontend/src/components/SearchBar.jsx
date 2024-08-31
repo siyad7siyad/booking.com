@@ -35,8 +35,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-3 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-md flex items-center gap-4 transition-all duration-300 transform -translate-y-6"
-    >
+      className="p-3 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-md flex items-center gap-4 transition-all duration-300 transform -translate-y-6 relative z-50"    >
       <div className="flex flex-row items-center bg-white p-2 rounded-lg shadow-sm flex-1">
         <MdTravelExplore size={25} className="mr-3 text-blue-600" />
         <input
@@ -72,7 +71,7 @@ const SearchBar = () => {
         </label>
       </div>
 
-      <div className="relative">
+      <div className="relative ">
         <DatePicker
           selected={checkIn}
           onChange={(date) => setCheckIn(date)}
@@ -82,7 +81,7 @@ const SearchBar = () => {
           minDate={minDate}
           maxDate={maxDate}
           placeholderText="Check-in Date"
-          className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold"
+          className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold "
           wrapperClassName="w-full"
         />
       </div>
@@ -96,7 +95,7 @@ const SearchBar = () => {
           minDate={checkIn}
           maxDate={maxDate}
           placeholderText="Check-out Date"
-          className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold"
+          className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold z-50"
           wrapperClassName="w-full"
         />
       </div>

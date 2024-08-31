@@ -4,12 +4,11 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api_client";
 import { useAppContext } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Register() {
   const queryClient = useQueryClient();
-
   const { showToast } = useAppContext();
-
   const navigate = useNavigate();
 
   const {
@@ -36,13 +35,28 @@ function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+      <motion.div
+        className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <form className="flex flex-col gap-5" onSubmit={onSubmit}>
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">
+          <motion.h2
+            className="text-4xl font-bold text-center text-gray-800 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             Create an Account
-          </h2>
+          </motion.h2>
           <div className="flex flex-col md:flex-row gap-5">
-            <label className="text-gray-700 text-sm font-semibold flex-1">
+            <motion.label
+              className="text-gray-700 text-sm font-semibold flex-1"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
               First Name
               <input
                 className="border rounded-full w-full py-2 px-4 mt-2 text-gray-800 focus:ring-2 focus:ring-blue-500"
@@ -55,8 +69,13 @@ function Register() {
                   {errors.firstName.message}
                 </span>
               )}
-            </label>
-            <label className="text-gray-700 text-sm font-semibold flex-1">
+            </motion.label>
+            <motion.label
+              className="text-gray-700 text-sm font-semibold flex-1"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               Last Name
               <input
                 className="border rounded-full w-full py-2 px-4 mt-2 text-gray-800 focus:ring-2 focus:ring-blue-500"
@@ -69,9 +88,14 @@ function Register() {
                   {errors.lastName.message}
                 </span>
               )}
-            </label>
+            </motion.label>
           </div>
-          <label className="text-gray-700 text-sm font-semibold">
+          <motion.label
+            className="text-gray-700 text-sm font-semibold"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             Email
             <input
               type="email"
@@ -83,8 +107,13 @@ function Register() {
                 {errors.email.message}
               </span>
             )}
-          </label>
-          <label className="text-gray-700 text-sm font-semibold">
+          </motion.label>
+          <motion.label
+            className="text-gray-700 text-sm font-semibold"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             Password
             <input
               type="password"
@@ -102,8 +131,13 @@ function Register() {
                 {errors.password.message}
               </span>
             )}
-          </label>
-          <label className="text-gray-700 text-sm font-semibold">
+          </motion.label>
+          <motion.label
+            className="text-gray-700 text-sm font-semibold"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             Confirm Password
             <input
               type="password"
@@ -123,15 +157,20 @@ function Register() {
                 {errors.confirmPassword.message}
               </span>
             )}
-          </label>
-          <button
+          </motion.label>
+          <motion.button
             type="submit"
             className="bg-blue-600 text-white py-2 px-4 rounded-full font-bold text-xl hover:bg-blue-700 transition duration-300 mt-6"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
           >
             Create Account
-          </button>
+          </motion.button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }

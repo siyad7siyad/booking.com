@@ -4,13 +4,13 @@ import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api_client";
 import { useAppContext } from "../contexts/AppContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const SignIn = () => {
   const { showToast } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const location = useLocation()
+  const location = useLocation();
 
   const {
     register,
@@ -35,7 +35,12 @@ const SignIn = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">
-      <div className="bg-white shadow-2xl rounded-2xl p-10 max-w-lg w-full transform transition-all duration-500 hover:scale-105">
+      <motion.div
+        className="bg-white shadow-2xl rounded-2xl p-10 max-w-lg w-full transform transition-all duration-500 hover:scale-105"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="text-5xl font-extrabold text-center text-gray-800 mb-6">
           Welcome Back
         </h2>
@@ -43,7 +48,12 @@ const SignIn = () => {
           Please sign in to your account
         </p>
         <form className="flex flex-col gap-6" onSubmit={onSubmit}>
-          <label className="text-gray-700 text-sm font-medium">
+          <motion.label
+            className="text-gray-700 text-sm font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             Email
             <input
               type="email"
@@ -55,8 +65,13 @@ const SignIn = () => {
                 {errors.email.message}
               </span>
             )}
-          </label>
-          <label className="text-gray-700 text-sm font-medium">
+          </motion.label>
+          <motion.label
+            className="text-gray-700 text-sm font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             Password
             <input
               type="password"
@@ -74,13 +89,18 @@ const SignIn = () => {
                 {errors.password.message}
               </span>
             )}
-          </label>
-          <button
+          </motion.label>
+          <motion.button
             type="submit"
             className="bg-purple-600 text-white py-3 px-4 rounded-full font-semibold text-xl hover:bg-purple-700 transition duration-300 mt-6"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
             Sign In
-          </button>
+          </motion.button>
           <span className="text-center text-sm text-gray-600 mt-4">
             Don’t have an account?{" "}
             <Link className="text-purple-600 hover:underline" to="/register">
@@ -88,15 +108,20 @@ const SignIn = () => {
             </Link>
           </span>
         </form>
-        <div className="mt-8 flex justify-center">
+        <motion.div
+          className="mt-8 flex justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           <Link
             to="/reset-password-request"
             className="text-gray-500 hover:text-purple-600 transition duration-300"
           >
             Forgot your password?
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

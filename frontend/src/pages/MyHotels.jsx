@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import * as apiClient from "../api_client";
 import { BsBuilding, BsMap } from "react-icons/bs";
 import { BiHotel, BiMoney, BiStar } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 const MyHotels = () => {
   const { data: hotelData } = useQuery(
@@ -34,18 +35,17 @@ const MyHotels = () => {
         </Link>
       </div>
       <div className="space-y-8">
-        {" "}
-        {/* Changed to vertical stacking with space between */}
         {hotelData.map((hotel) => (
-          <div
+          <motion.div
             key={hotel._id}
             className="flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105 hover:shadow-2xl"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
           >
             <h2 className="text-2xl font-bold text-gray-700">{hotel.name}</h2>
             <p className="text-gray-600 mt-2">{hotel.description}</p>
             <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
-              {" "}
-              {/* Adjusted grid for smaller screens */}
               <div className="flex items-center bg-gray-100 p-3 rounded-md shadow-sm">
                 <BsMap className="text-blue-500 mr-2" />
                 <span className="text-gray-700">
@@ -83,7 +83,7 @@ const MyHotels = () => {
                 View Details
               </Link>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
