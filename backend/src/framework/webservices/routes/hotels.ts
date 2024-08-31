@@ -3,6 +3,9 @@ import Hotel, { HotelSearchResponse } from "../../database/models/hotel";
 import { param, validationResult } from "express-validator";
 import Stripe from "stripe";
 import verifyToken from "../middleware/auth";
+import "dotenv/config";
+
+const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 
 export type paymenentIntentResponse = {
   paymentIntentId: string;
@@ -22,8 +25,6 @@ export type BookingType = {
   checkOut: Date;
   totalCost: number;
 };
-
-const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 
 const router = express.Router();
 
@@ -74,6 +75,16 @@ router.get("/search", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    const hotels = await Hotel.find().sort("-lastUpdated");
+    res.json(hotels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching hotels" });
+  }
+});
+
 router.get(
   "/:id",
   [param("id").notEmpty().withMessage("Hotel ID is required")],
@@ -93,6 +104,7 @@ router.get(
     }
   }
 );
+
 router.post(
   "/:hotelId/bookings/payment-intent",
   verifyToken,
@@ -145,6 +157,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const paymenentIntentId = req.body.paymentIntentId;
+      console.log(paymenentIntentId, "paymenentIntentId");
 
       const paymentIntent = await stripe.paymentIntents.retrieve(
         paymenentIntentId as string

@@ -9,6 +9,9 @@ import EditHotel from "./pages/EditHotel";
 import Search from "./pages/Search";
 import Details from "./pages/Details";
 import Booking from "./pages/Booking";
+import MyBookings from "./pages/MyBookings";
+
+import MyHome from "./pages/MyHome";
 
 function App() {
   const { isLoggedIn } = useAppContext();
@@ -16,7 +19,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />} />
+        {/* <Route path="/" element={<Layout />} /> */}
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <MyHome />
+            </Layout>
+          }
+        />
         <Route
           path="/register"
           element={
@@ -88,6 +99,15 @@ function App() {
                 <Layout>
                   {" "}
                   <EditHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-bookings"
+              element={
+                <Layout>
+                  {" "}
+                  <MyBookings />
                 </Layout>
               }
             />

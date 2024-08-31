@@ -151,6 +151,20 @@ export const searchHotels = async (searchParams) => {
 
   return response.json();
 };
+
+export const fetchHotels = async () => {
+  console.log("Fetching hotels..."); // Updated log message
+
+  const response = await fetch(`${API_BASE_URL}/api/hotels`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching hotels");
+  }
+  return response.json();
+};
+
 export const fetchHotelById = async (hotelId) => {
   const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
 
@@ -183,20 +197,58 @@ export const createPaymentIntent = async (hotelId, numberOfNights) => {
 
   return response.json();
 };
+export const createRoomBooking = async (formData) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      }
+    );
 
-export const createBooking = async (formData) => {
-  const response = await fetch(
-    `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(FormData),
+    if (!response.ok) {
+      // Check if the response body is empty or not JSON
+      let errorMessage = "Error booking room";
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch (jsonError) {
+        // Handle cases where the response is not valid JSON
+        console.error("Error parsing JSON response:", jsonError);
+      }
+
+      console.error("Booking error:", errorMessage);
+      throw new Error(errorMessage);
     }
-  );
-  if (!response.ok) {
-    throw new Error("Error booking room");
+
+    // Only attempt to parse JSON if the response is OK and non-empty
+    const responseBody = await response.text();
+    if (responseBody) {
+      return JSON.parse(responseBody);
+    } else {
+      // Handle empty response case
+      console.warn("Received empty response from server.");
+      return {};
+    }
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
   }
+};
+
+export const fetchMyBookings = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/my-bookings`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to fetch bookings");
+  }
+
+  return response.json();
 };

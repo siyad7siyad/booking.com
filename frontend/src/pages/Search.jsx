@@ -46,13 +46,11 @@ const Search = () => {
 
   // Debugging: Log the API response
   console.log(hotelData);
-
+  
   const handleStarsChange = (event) => {
     const starRating = event.target.value;
     setSelectedStars((prevStars) =>
-      event.target.checked
-        ? [...prevStars, starRating]
-        : prevStars.filter((star) => star !== starRating)
+      event.target.checked ? [starRating] : prevStars.filter((star) => star !== starRating)
     );
   };
 
