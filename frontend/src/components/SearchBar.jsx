@@ -9,12 +9,11 @@ const SearchBar = () => {
   const search = useSearchContext();
   const navigate = useNavigate();
 
-  
-  const [destination, setDestination] = useState(search.destination);
-  const [checkIn, setCheckIn] = useState(search.checkIn);
-  const [checkOut, setCheckOut] = useState(search.checkOut);
-  const [adultCount, setAdultCount] = useState(search.adultCount);
-  const [childCount, setChildCount] = useState(search.childCount);
+  const [destination, setDestination] = useState(search.destination || "");
+  const [checkIn, setCheckIn] = useState(search.checkIn || new Date());
+  const [checkOut, setCheckOut] = useState(search.checkOut || new Date());
+  const [adultCount, setAdultCount] = useState(search.adultCount || 1);
+  const [childCount, setChildCount] = useState(search.childCount || 0);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,6 +27,14 @@ const SearchBar = () => {
     navigate("/search");
   };
 
+  const handleClear = () => {
+    setDestination("");
+    setCheckIn(new Date());
+    setCheckOut(new Date());
+    setAdultCount(1);
+    setChildCount(0);
+  };
+
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
@@ -35,7 +42,8 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-3 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-md flex items-center gap-4 transition-all duration-300 transform -translate-y-6 relative z-50"    >
+      className="p-3 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-md flex items-center gap-4 transition-all duration-300 transform -translate-y-6 relative z-50"
+    >
       <div className="flex flex-row items-center bg-white p-2 rounded-lg shadow-sm flex-1">
         <MdTravelExplore size={25} className="mr-3 text-blue-600" />
         <input
@@ -71,7 +79,7 @@ const SearchBar = () => {
         </label>
       </div>
 
-      <div className="relative ">
+      <div className="relative">
         <DatePicker
           selected={checkIn}
           onChange={(date) => setCheckIn(date)}
@@ -81,7 +89,7 @@ const SearchBar = () => {
           minDate={minDate}
           maxDate={maxDate}
           placeholderText="Check-in Date"
-          className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold "
+          className="w-full bg-white p-3 rounded-lg shadow-sm focus:outline-none text-gray-700 font-semibold"
           wrapperClassName="w-full"
         />
       </div>
@@ -107,7 +115,8 @@ const SearchBar = () => {
           Search
         </button>
         <button
-          type="reset"
+          type="button"
+          onClick={handleClear}
           className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-bold text-lg hover:bg-red-500 transition-colors duration-300"
         >
           Clear

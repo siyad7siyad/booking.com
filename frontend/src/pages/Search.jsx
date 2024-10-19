@@ -75,89 +75,92 @@ const Search = () => {
     );
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading hotels</div>;
+  if (isLoading) return <div className="text-center p-4">Loading...</div>;
+  if (isError)
+    return <div className="text-center p-4">Error loading hotels</div>;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <motion.div
-        className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10 bg-white shadow-md overflow-hidden"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="space-y-5">
-          <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">
-            Filter by:
-          </h3>
-          <StarRatingFilter
-            selectedStars={selectedStars}
-            onChange={handleStarsChange}
-          />
-          <HotelTypesFilter
-            selectedHotelTypes={selectedHotelTypes}
-            onChange={handleTypeChange}
-          />
-          <HotelFacilityFilter
-            selectedFacilities={selectedFacilities}
-            onChange={handleFacilityChange}
-          />
-          <PriceFilter
-            selectedPrice={selectedPrice}
-            onChange={(value) => setSelectedPrice(value)}
-          />
-        </div>
-      </motion.div>
-      <motion.div
-        className="flex flex-col gap-5"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="flex flex-col gap-5">
-          <span className="text-xl font-bold">
-            {hotelData?.pagination?.total !== undefined
-              ? `${hotelData.pagination.total} Hotels Found`
-              : "No hotels found"}
-            {search.destination ? ` in ${search.destination}` : ""}
-          </span>
-
-          <div className="flex justify-end">
-            <select
-              value={sortOption}
-              onChange={(event) => setSortOption(event.target.value)}
-              className="p-2 border rounded-md"
-            >
-              <option value="">Sort By:</option>
-              <option value="starRating">Star Rating</option>
-              <option value="pricePerNightAsc">
-                Price Per Night (Low To High)
-              </option>
-              <option value="pricePerNightDesc">
-                Price Per Night (High To Low)
-              </option>
-            </select>
-          </div>
-
-          {hotelData?.data?.map((hotel, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <SearchResultsCard hotel={hotel} />
-            </motion.div>
-          ))}
-          <div>
-            <Pagination
-              page={hotelData?.pagination?.page || 1}
-              pages={hotelData?.pagination?.pages || 1}
-              onPageChange={(page) => setPage(page)}
+    <div className="bg-gradient-to-r from-gray-100 via-gray-100 to-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
+        <motion.div
+          className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10 bg-white shadow-md overflow-hidden"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="space-y-5">
+            <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">
+              Filter by:
+            </h3>
+            <StarRatingFilter
+              selectedStars={selectedStars}
+              onChange={handleStarsChange}
+            />
+            <HotelTypesFilter
+              selectedHotelTypes={selectedHotelTypes}
+              onChange={handleTypeChange}
+            />
+            <HotelFacilityFilter
+              selectedFacilities={selectedFacilities}
+              onChange={handleFacilityChange}
+            />
+            <PriceFilter
+              selectedPrice={selectedPrice}
+              onChange={(value) => setSelectedPrice(value)}
             />
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+        <motion.div
+          className="flex flex-col gap-5"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex flex-col gap-5">
+            <span className="text-xl font-bold">
+              {hotelData?.pagination?.total !== undefined
+                ? `${hotelData.pagination.total} Hotels Found`
+                : "No hotels found"}
+              {search.destination ? ` in ${search.destination}` : ""}
+            </span>
+
+            <div className="flex justify-end">
+              <select
+                value={sortOption}
+                onChange={(event) => setSortOption(event.target.value)}
+                className="p-2 border rounded-md"
+              >
+                <option value="">Sort By:</option>
+                <option value="starRating">Star Rating</option>
+                <option value="pricePerNightAsc">
+                  Price Per Night (Low To High)
+                </option>
+                <option value="pricePerNightDesc">
+                  Price Per Night (High To Low)
+                </option>
+              </select>
+            </div>
+
+            {hotelData?.data?.map((hotel, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <SearchResultsCard hotel={hotel} />
+              </motion.div>
+            ))}
+            <div>
+              <Pagination
+                page={hotelData?.pagination?.page || 1}
+                pages={hotelData?.pagination?.pages || 1}
+                onPageChange={(page) => setPage(page)}
+              />
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };

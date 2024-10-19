@@ -7,15 +7,26 @@ import { BiHotel, BiMoney, BiStar } from "react-icons/bi";
 import { motion } from "framer-motion";
 
 const MyHotels = () => {
-  const { data: hotelData } = useQuery(
+  const { data: hotelData, isLoading, isError } = useQuery(
     "fetchMyHotels",
     apiClient.fetchMyHotels,
     {
-      onError: () => {},
+      onError: (error) => {
+        console.error("Error fetching hotels:", error); // Improved error handling
+        alert("Failed to fetch hotels, please try again later."); // Display error message
+      },
     }
   );
 
-  if (!hotelData) {
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="text-gray-500 text-xl">Loading hotels...</span>
+      </div>
+    );
+  }
+
+  if (isError || !hotelData || hotelData.length === 0) { // Modified condition to handle empty data
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="text-gray-500 text-xl">No Hotels found</span>
@@ -70,9 +81,7 @@ const MyHotels = () => {
               </div>
               <div className="flex items-center bg-gray-100 p-3 rounded-md shadow-sm">
                 <BiStar className="text-red-500 mr-2" />
-                <span className="text-gray-700">
-                  {hotel.starRating} Star Rating
-                </span>
+                <span className="text-gray-700">{hotel.starRating} Star Rating</span>
               </div>
             </div>
             <div className="flex justify-end mt-6">
